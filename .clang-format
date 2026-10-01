@@ -1,0 +1,45 @@
+---
+BasedOnStyle: LLVM
+Language: Cpp
+
+# Indentation rules
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+IndentCaseLabels: true
+
+# Column & alignment settings
+ColumnLimit: 120
+DerivePointerAlignment: false
+PointerAlignment: Right
+AlignAfterOpenBracket: Align
+AlignArrayOfStructures: Right
+SpaceAfterCStyleCast: false
+
+# Vertical spacing
+MaxEmptyLinesToKeep: 2
+KeepEmptyLines:
+  AtStartOfBlock: true
+
+# Compound literals & braced list formatting
+Cpp11BracedListStyle: false
+
+# Short statement collapsing prevention
+AllowShortBlocksOnASingleLine: Never
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortEnumsOnASingleLine: false
+# CHANGED: Changed from 'None' to 'Inline' and removed duplicate attempts
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+
+# Parameter & argument wrapping rules
+BinPackArguments: false
+BinPackParameters: false
+
+# ADDED: Forces empty function blocks to remain on a single line
+BreakBeforeBraces: Custom
+BraceWrapping:
+  SplitEmptyFunction: false
+...
+
