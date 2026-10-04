@@ -20,7 +20,12 @@ int main(int argc, char **argv) {
     parse::Lexer lex(fb.contents());
     parse::Token t = lex.next_token();
     while (t.type != parse::Eof) {
-        std::printf("%zu [%.*s, %zu]\n", lex.current_line(), static_cast<int>(t.len), t.s, t.len);
+        std::printf("%zu [%.*s, %zu, %d]\n", lex.current_line(), static_cast<int>(t.len), t.s, t.len, t.type);
+
+        // Catch bugs
+        if (t.type == parse::Unterminated_String_Literal) {
+            std::cout << "Unterminated string literal at line " << lex.current_line() << std::endl;
+        }
         t = lex.next_token();
     }
 
