@@ -18,3 +18,9 @@ exceptions, etc.
 Currently, there is no guarantee that it works on Windows, but porting attempts  
 will start as soon as we hit v0.20 when the language, the features and its tools are
 mature enough.
+
+## Goals?
+When we reach v0.20, porting attempts to Windows are going to start
+once tools and the language is stable enough.
+At v0.10 features such as type-inference,
+At v0.05, I will add imports and file visibility (public v. private)
