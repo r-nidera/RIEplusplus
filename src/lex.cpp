@@ -17,8 +17,10 @@
  */
 
 #include <cctype>
+#include <cstdio>
 #include <cstring>
 #include <parse.hpp>
+#include <stdarg.h>
 
 using namespace parse;
 using namespace std;
@@ -35,13 +37,14 @@ struct Keyword {
 static const Keyword KEYWORDS[] = {
     {      "let", 3,      Keyword_Let },
 
-    {     "void", 4,     Keyword_Void },
-    {     "char", 4,     Keyword_Char },
-    {    "short", 5,    Keyword_Short },
-    {      "int", 3,      Keyword_Int },
-    {    "float", 5,    Keyword_Float },
-    {     "long", 4,     Keyword_Long },
-    {   "double", 6,   Keyword_Double },
+    {     "Void", 4,     Keyword_Void },
+    {     "Byte", 4,     Keyword_Byte },
+    {     "Char", 4,     Keyword_Char },
+    {    "Short", 5,    Keyword_Short },
+    {      "Int", 3,      Keyword_Int },
+    {    "Float", 5,    Keyword_Float },
+    {     "Long", 4,     Keyword_Long },
+    {   "Double", 6,   Keyword_Double },
     { "unsigned", 8, Keyword_Unsigned },
     {      "val", 5,      Keyword_Val },
 
@@ -187,4 +190,14 @@ Token Lexer::next_token() {
     // TODO: CHANGE THIS TO INVALID AND HANDLE IN THE PRINT STATMENTS!!!
     advance();
     return (Token){ start_, (size_t)(current_ - start_), TokenType::Unknown };
+}
+
+void Lexer::exception(const char *fmt, ...) {
+    va_list args;
+    va_start(args, fmt);
+
+    // TODO: ADD LINE:FILE format
+    printf("Exception called: ");
+    vprintf(fmt, args);
+    va_end(args);
 }

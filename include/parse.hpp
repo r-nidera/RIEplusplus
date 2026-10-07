@@ -57,6 +57,7 @@ enum TokenType {
     Keyword_Let = 200,
 
     Keyword_Void = 250,
+    Keyword_Byte,
     Keyword_Char,
     Keyword_Short,
     Keyword_Int,
@@ -98,6 +99,8 @@ class Lexer {
 
     size_t current_line() const { return line_; }
     Token next_token(void);
+
+    [[gnu::nonnull, gnu::format(printf, 1, 2)]] static void exception(const char *fmt, ...);
 };
 
 } // namespace parse
