@@ -20,7 +20,7 @@ will start as soon as we hit v0.20 when the language, the features and its tools
 mature enough.
 
 ## Goals?
-When we reach v0.20, porting attempts to Windows are going to start
-once tools and the language is stable enough.
-At v0.10 features such as type-inference,
+When we reach v0.20, porting attempts to Windows are going to start once the tools
+and language are stable enough.\
+At v0.10 features such as type-inference,\
 At v0.05, I will add imports and file visibility (public v. private)
