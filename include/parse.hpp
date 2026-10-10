@@ -58,11 +58,15 @@ enum TokenType {
 
     Keyword_Void = 250,
     Keyword_Byte,
+    Keyword_UByte,
     Keyword_Char,
     Keyword_Short,
+    Keyword_UShort,
     Keyword_Int,
+    Keyword_UInt,
     Keyword_Float,
     Keyword_Long,
+    Keyword_ULong,
     Keyword_Double,
 
     Keyword_Unsigned,
