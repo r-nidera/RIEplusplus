@@ -204,7 +204,7 @@ Token Lexer::next_token() {
                 advance();
                 if (peek() == '/') {
                     advance();
-                    while (!is_eof()) {
+                    while (!is_eof() && peek() != '\n') {
                         advance();
                     }
                     return Token{ start_, (size_t)(current_ - start_), Comment };
@@ -240,7 +240,7 @@ bool Lexer::validate_token(Token t) {
                 return true;
             }
             case Unterminated_String_Literal: {
-                exception("Unterminated string literal");
+                exception("Unterminated string literal\n");
                 return true;
             }
             default:
