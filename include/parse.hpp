@@ -33,6 +33,7 @@ enum TokenType {
     Minus,
     Slash,
     Dot,
+    Comment,
 
     Left_Paren = 50,
     Right_Paren,
@@ -52,6 +53,9 @@ enum TokenType {
     Operator_Equal = 110,
     Operator_Increment,
     Operator_Addition_Assignment,
+    Operator_Subtraction_Assignment,
+    Operator_Multiplication_Assignment,
+    Operator_Division_Assigment,
 
 
     Keyword_Let = 200,
@@ -101,6 +105,7 @@ class Lexer {
     std::size_t consume_digit(void);
     std::size_t consume_string(void);
 
+    bool validate_token(Token t);
     size_t current_line() const { return line_; }
     Token next_token(void);
 

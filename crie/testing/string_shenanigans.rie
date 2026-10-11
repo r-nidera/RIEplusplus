@@ -1,2 +1,3 @@
 // Deliberately unterminated string
+// Hey this is also a comment!!
 val str: String = "

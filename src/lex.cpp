@@ -111,12 +111,12 @@ static TokenType validate_digit(const char *s, size_t len) {
     for (size_t i = 0; i < len; i++) {
         if (s[i] == '.') {
             if (has_dp) {
-                return parse::Malformed_Float_Literal;
+                return Malformed_Float_Literal;
             }
             has_dp = true;
         }
     }
-    return (has_dp) ? parse::Float_Literal : parse::Integer_Literal;
+    return (has_dp) ? Float_Literal : Integer_Literal;
 }
 
 Token Lexer::next_token() {
@@ -138,31 +138,31 @@ Token Lexer::next_token() {
         switch (peek()) {
             case ':': {
                 advance();
-                return (Token){ start_, 1, parse::Colon };
+                return (Token){ start_, 1, Colon };
             }
             case ',': {
                 advance();
-                return (Token){ start_, 1, parse::Comma };
+                return (Token){ start_, 1, Comma };
             }
             case '(': {
                 advance();
-                return (Token){ start_, 1, parse::Left_Paren };
+                return (Token){ start_, 1, Left_Paren };
             }
             case ')': {
                 advance();
-                return (Token){ start_, 1, parse::Right_Paren };
+                return (Token){ start_, 1, Right_Paren };
             }
             case '{': {
                 advance();
-                return (Token){ start_, 1, parse::Left_Brace };
+                return (Token){ start_, 1, Left_Brace };
             }
             case '}': {
                 advance();
-                return Token{ start_, 1, parse::Right_Brace };
+                return Token{ start_, 1, Right_Brace };
             }
             case '=': {
                 advance();
-                return Token{ start_, 1, parse::Equal };
+                return Token{ start_, 1, Equal };
             }
             case '\"': {
                 // Move the start of the string literal from the dquote
@@ -174,19 +174,44 @@ Token Lexer::next_token() {
                 // the first string literal to leave the trailing quote which causes the lexer
                 // to interpret the trailing dqote as an opening to a string
                 auto len = consume_string();
-                return Token{ start_, len, len == 0 ? parse::Unterminated_String_Literal : parse::String_Literal };
+                return Token{ start_, len, len == 0 ? Unterminated_String_Literal : String_Literal };
             }
             case '+': {
                 advance();
-                return Token{ start_, 1, parse::Plus };
+                if (peek() == '=') {
+                    advance();
+                    return Token{ start_, 2, Operator_Addition_Assignment };
+                }
+                return Token{ start_, 1, Plus };
             }
             case '-': {
                 advance();
-                return Token{ start_, 1, parse::Minus };
+                if (peek() == '=') {
+                    advance();
+                    return Token{ start_, 2, Operator_Subtraction_Assignment };
+                }
+                return Token{ start_, 1, Minus };
             }
             case '*': {
+                if (peek() == '=') {
+                    advance();
+                    return Token{ start_, 2, Operator_Multiplication_Assignment };
+                }
                 advance();
-                return Token{ start_, 1, parse::Star };
+                return Token{ start_, 1, Star };
+            }
+            case '/': {
+                advance();
+                if (peek() == '/') {
+                    advance();
+                    while (!is_eof()) {
+                        advance();
+                    }
+                    return Token{ start_, (size_t)(current_ - start_), Comment };
+                } else if (peek() == '=') {
+                    advance();
+                    return Token{ start_, 2, Operator_Multiplication_Assignment };
+                }
             }
         }
     }
@@ -204,4 +229,25 @@ void Lexer::exception(const char *fmt, ...) {
     printf("Exception called: ");
     vprintf(fmt, args);
     va_end(args);
+}
+
+bool Lexer::validate_token(Token t) {
+    // Catch errors
+    if (t.type > 400) {
+        switch (t.type) {
+            case Malformed_Float_Literal: {
+                exception("Malformed float literal at line %zu\n", current_line());
+                return true;
+            }
+            case Unterminated_String_Literal: {
+                exception("Unterminated string literal");
+                return true;
+            }
+            default:
+                exception("Unhandled error! Enumeration element is above 400 (which signifies have an error)\n"
+                          "but is not handled in the source.\n");
+                return true;
+        }
+    }
+    return false;
 }

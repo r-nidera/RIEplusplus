@@ -21,7 +21,6 @@
 #include <parse.hpp>
 #include <process.hpp>
 
-#include <iostream>
 using namespace parse;
 
 int main(int argc, char **argv) {
@@ -42,23 +41,16 @@ int main(int argc, char **argv) {
     // Tokenize the file and print it one by one
     parse::Lexer lex(fb.contents());
     parse::Token t = lex.next_token();
-    while (t.type != parse::Eof) {
+    for (;;) {
+        if (t.type == Eof) {
+            break;
+        }
         std::printf("%zu [%.*s, %zu, %d]\n", lex.current_line(), static_cast<int>(t.len), t.s, t.len, t.type);
 
-        // Catch errors
-        if (t.type > 400) {
-            switch (t.type) {
-                case Malformed_Float_Literal: {
-                    lex.exception("Malformed float literal at line %zu", lex.current_line());
-                    return 1;
-                }
-                case Unterminated_String_Literal: {
-                    lex.exception("Unterminated string literal");
-                }
-                default:
-                    break;
-            }
+        if (lex.validate_token(t)) {
+            return 1;
         }
+
         // IDEA: have parsing down here, but above t = next_token
         t = lex.next_token();
     }
