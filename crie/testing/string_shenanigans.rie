@@ -1,0 +1,2 @@
+// Deliberately unterminated string
+val str: String = "

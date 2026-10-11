@@ -69,7 +69,6 @@ Testing/
 *.o
 *.so
 *.exe
-crie
 
 build
 compile_commands.json

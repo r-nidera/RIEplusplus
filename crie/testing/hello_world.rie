@@ -1,0 +1,7 @@
+let v: int = 10
+let x: float = 1.0
+buggy_string = 1.0.0
+
+function main(): void {
+	print("Hello, world!")
+}
